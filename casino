@@ -31,6 +31,7 @@
 	var chapters = 0;
 	var verses = 0;
 	var speed = 0;
+	var runs = 1000000;
 	var output = '';
 	
 	function getBook(book) {
@@ -50,7 +51,7 @@
 		var elf = book;
 		var fly = chapter
 
-		var verses_interval = setInterval(function(){    
+		for (var i = 0; i < runs; i ++) {  
 
 			var a = Math.floor(Math.random()*verses)
 			var b = Math.floor(Math.random()*verses)
@@ -58,7 +59,6 @@
 			$("#verse_2").html(b)
 
 			if(a === b){
-				clearInterval(verses_interval);
 
 				var ending = db.books[book].chapters[chapter].verses.length - a;
 
@@ -80,9 +80,11 @@
 
 	        		}
 
+	        	break;
+
         	}			
-			
-		}, speed); 
+		
+		} 
 
 	}
 
@@ -91,7 +93,7 @@
 
 		var stook = book;
 
-		var chapters_interval = setInterval(function(){    
+		for (var i = 0; i < runs; i ++) {   
 
 			var a = Math.floor(Math.random()*chapters)
 			var b = Math.floor(Math.random()*chapters)
@@ -99,18 +101,16 @@
 			$("#chapter_2").html(b)
 
 			if(a === b){
-				clearInterval(chapters_interval);
 				verses = db.books[stook].chapters[a].verses.length
 				verses_find(stook, a)
+				break;
 			}
-
-		}, speed); 
 
 	}
 
 	function authors_find() {
 
-		var authors_interval = setInterval(function(){    
+		for (var i = 0; i < runs; i ++) {   
 
 			var a = Math.floor(Math.random()*authors)
 			var b = Math.floor(Math.random()*authors)
@@ -118,18 +118,16 @@
 			$("#author_2").html(db.books[b].book)
 
 			if(a === b){
-				clearInterval(authors_interval);
 				chapters = db.books[a].chapters.length;
 				chapters_find(a)
+				break;
 			}
-
-		}, speed); 
 
 	}
 
 	function books_find() {
 
-		var books_interval = setInterval(function(){    
+		for (var i = 0; i < runs; i ++) {
 
 			var a = Math.floor(Math.random()*books.length)
 			var b = Math.floor(Math.random()*books.length)
@@ -137,11 +135,10 @@
 			$("#book_2").html(books[b])
 
 			if(a === b){
-				clearInterval(books_interval);
 				getBook(books[a])
+				break;
 			}
-
-		}, speed); 
+		}
 
 	}
 
