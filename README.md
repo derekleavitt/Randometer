@@ -1,0 +1,3 @@
+# Randometer
+
+For anytime you need answers...
