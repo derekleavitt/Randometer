@@ -9,7 +9,7 @@ var books = ["doctrine-and-covenants","book-of-mormon","pearl-of-great-price","n
 var output = '';
 var db;
 var book_pick = books[Math.floor(Math.random()*books.length)];
-var cutter = 3;
+var verse_limit = 3;
 
 console.log("book: "+book_pick)
 
@@ -28,8 +28,8 @@ console.log("book: "+book_pick)
 	        var cut = Math.floor(Math.random()*ending);
 	        console.log("cut: "+cut);
 
-	        if (cut > cutter){
-	        	cut = cutter;
+	        if (cut > verse_limit){
+	        	cut = verse_limit;
 	        }
 
 	        if (cut === 0) {
@@ -59,8 +59,8 @@ console.log("book: "+book_pick)
 	        console.log("ending: "+ending)
 	        var cut = Math.floor(Math.random()*ending);
 	        console.log("cut: "+cut);
-	       	if (cut > cutter){
-	        	cut = cutter;
+	       	if (cut > verse_limit){
+	        	cut = verse_limit;
 	        }
 
 	        if (cut === 0) {
