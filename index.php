@@ -1,82 +1,150 @@
+
+<div id="books">
+	<span id="book_1"></span>
+	<span id="book_2"></span>
+	<span id="book_3"></span>
+</div>
+<div id="authors">
+	<span id="author_1"></span>
+	<span id="author_2"></span>
+	<span id="author_3"></span>
+</div>
+<div id="chapters">
+	<span id="chapter_1"></span>
+	<span id="chapter_2"></span>
+	<span id="chapter_3"></span>
+</div>
+<div id="verses">
+	<span id="verse_1"></span>
+	<span id="verse_2"></span>
+	<span id="verse_3"></span>
+</div>
 <div id="output"></div>
 
 <script src="jquery.js"></script>
 
 <script>
 
-var books = ["new-testament","old-testament"];
+	var db;
+	var books = ["old-testament","new-testament"];
+	var authors = 0;
+	var chapters = 0;
+	var verses = 0;
+	var speed = 0.01;
+	var output = '';
+	
+	function getBook(book) {
+	
+		$.getJSON('data/'+book+'.json',function(data){
 
-var output = '';
-var db;
-var book_pick = books[Math.floor(Math.random()*books.length)];
+			db = data;
+			authors = db.books.length;
+			authors_find()
 
-console.log("book: "+book_pick)
+		});
 
-    $.getJSON('data/'+book_pick+'.json',function(data){
-        
-        db = data;
+	}
 
-        if (book_pick === "doctrine-and-covenants") {
+	function verses_find(book, chapter) {
 
-	  //       var section = Math.floor(Math.random()*db.sections.length);
-			// console.log("section: "+section)
-			// var verse = Math.floor(Math.random()*db.sections[section].verses.length)
-   //  		console.log("verse: "+verse)
-   //  		var ending = db.sections[section].verses.length - verse;
-	  //       console.log("ending: "+ending)
-	  //       var cut = Math.floor(Math.random()*ending);
-	  //       console.log("cut: "+cut);
+		var elf = book;
+		var fly = chapter
 
-	  //       if (cut === 0) {
+		var verses_interval = setInterval(function(){    
 
-	  //       	output = output + "<p>"+db.sections[section].verses[(verse)].text+"</p>";
+			var a = Math.floor(Math.random()*verses)
+			var b = Math.floor(Math.random()*verses)
+			$("#verse_1").html(a)
+			$("#verse_2").html(b)
 
-	  //       } else {
+			if(a === b){
+				clearInterval(verses_interval);
 
-	  //       	for (var i = 0; i < cut; i++) {
-	  //       		output = output + "<p>"+db.sections[section].verses[(verse+i)].text+"</p>";
-	  //       	}
+				var ending = db.books[book].chapters[chapter].verses.length - a;
 
-	  //       }
+				$('#output').append("<p>"+db.books[elf].chapters[fly].verses[a].text+"</p>");
+
+			        if (ending > 0) {
+
+			        	for (var i = 0; i < ending; i++) {
+
+			        		if(Math.random()>0.5) {
+
+			        		$('#output').append("<p>"+db.books[elf].chapters[fly].verses[(a+(i+1))].text+"</p>");
+			        		} else {
+			        			console.log('break')
+			        			break;
+			        		}
+
+			        	}
+
+	        		}
+
+        	}			
+			
+		}, speed); 
+
+	}
 
 
+	function chapters_find(book) {
 
-        } else {
+		var stook = book;
 
-	       	var book = Math.floor(Math.random()*db.books.length);
-	        console.log("author: "+book)
-	        
-	        var chapter = Math.floor(Math.random()*db.books[book].chapters.length);
-	        console.log("chapter: "+chapter)
-	        var verse = Math.floor(Math.random()*db.books[book].chapters[chapter].verses.length)
-	        console.log("verse: "+verse)
-	        var ending = db.books[book].chapters[chapter].verses.length - verse;
-	        console.log("ending: "+ending)
+		var chapters_interval = setInterval(function(){    
 
-	        output = output + "<p>"+db.books[book].chapters[chapter].verses[(verse)].text+"</p>";
+			var a = Math.floor(Math.random()*chapters)
+			var b = Math.floor(Math.random()*chapters)
+			$("#chapter_1").html(a)
+			$("#chapter_2").html(b)
 
-	        if (ending > 0) {
+			if(a === b){
+				clearInterval(chapters_interval);
+				verses = db.books[stook].chapters[a].verses.length
+				verses_find(stook, a)
+			}
 
-	        	for (var i = 0; i < ending; i++) {
+		}, speed); 
 
-	        		if(Math.random()>0.5) {
+	}
 
-	        			console.log('pass')
+	function authors_find() {
 
-	        		output = output + "<p>"+db.books[book].chapters[chapter].verses[(verse+(i+1))].text+"</p>";
-	        	} else {
-	        		console.log('break')
-	        		break;
-	        	}
+		var authors_interval = setInterval(function(){    
 
-	        	}
+			var a = Math.floor(Math.random()*authors)
+			var b = Math.floor(Math.random()*authors)
+			$("#author_1").html(db.books[a].book)
+			$("#author_2").html(db.books[b].book)
 
-	        }
+			if(a === b){
+				clearInterval(authors_interval);
+				chapters = db.books[a].chapters.length;
+				chapters_find(a)
+			}
 
-        }			
+		}, speed); 
 
-        $('#output').html(output)
+	}
 
-    });
+	function books_find() {
+
+		var books_interval = setInterval(function(){    
+
+			var a = Math.floor(Math.random()*books.length)
+			var b = Math.floor(Math.random()*books.length)
+			$("#book_1").html(books[a])
+			$("#book_2").html(books[b])
+
+			if(a === b){
+				clearInterval(books_interval);
+				getBook(books[a])
+			}
+
+		}, speed); 
+
+	}
+
+	books_find();
 
 </script>
