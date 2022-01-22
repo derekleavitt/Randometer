@@ -4,12 +4,11 @@
 
 <script>
 
-var books = ["doctrine-and-covenants","book-of-mormon","pearl-of-great-price","new-testament","old-testament"];
+var books = ["new-testament","old-testament"];
 
 var output = '';
 var db;
 var book_pick = books[Math.floor(Math.random()*books.length)];
-var verse_limit = 3;
 
 console.log("book: "+book_pick)
 
@@ -19,30 +18,26 @@ console.log("book: "+book_pick)
 
         if (book_pick === "doctrine-and-covenants") {
 
-	        var section = Math.floor(Math.random()*db.sections.length);
-			console.log("section: "+section)
-			var verse = Math.floor(Math.random()*db.sections[section].verses.length)
-    		console.log("verse: "+verse)
-    		var ending = db.sections[section].verses.length - verse;
-	        console.log("ending: "+ending)
-	        var cut = Math.floor(Math.random()*ending);
-	        console.log("cut: "+cut);
+	  //       var section = Math.floor(Math.random()*db.sections.length);
+			// console.log("section: "+section)
+			// var verse = Math.floor(Math.random()*db.sections[section].verses.length)
+   //  		console.log("verse: "+verse)
+   //  		var ending = db.sections[section].verses.length - verse;
+	  //       console.log("ending: "+ending)
+	  //       var cut = Math.floor(Math.random()*ending);
+	  //       console.log("cut: "+cut);
 
-	        if (cut > verse_limit){
-	        	cut = verse_limit;
-	        }
+	  //       if (cut === 0) {
 
-	        if (cut === 0) {
+	  //       	output = output + "<p>"+db.sections[section].verses[(verse)].text+"</p>";
 
-	        	output = output + "<p>"+db.sections[section].verses[(verse)].text+"</p>";
+	  //       } else {
 
-	        } else {
+	  //       	for (var i = 0; i < cut; i++) {
+	  //       		output = output + "<p>"+db.sections[section].verses[(verse+i)].text+"</p>";
+	  //       	}
 
-	        	for (var i = 0; i < cut; i++) {
-	        		output = output + "<p>"+db.sections[section].verses[(verse+i)].text+"</p>";
-	        	}
-
-	        }
+	  //       }
 
 
 
@@ -57,20 +52,23 @@ console.log("book: "+book_pick)
 	        console.log("verse: "+verse)
 	        var ending = db.books[book].chapters[chapter].verses.length - verse;
 	        console.log("ending: "+ending)
-	        var cut = Math.floor(Math.random()*ending);
-	        console.log("cut: "+cut);
-	       	if (cut > verse_limit){
-	        	cut = verse_limit;
-	        }
 
-	        if (cut === 0) {
+	        output = output + "<p>"+db.books[book].chapters[chapter].verses[(verse)].text+"</p>";
 
-	        	output = output + "<p>"+db.books[book].chapters[chapter].verses[(verse)].text+"</p>";
+	        if (ending > 0) {
 
-	        } else {
+	        	for (var i = 0; i < ending; i++) {
 
-	        	for (var i = 0; i < cut; i++) {
-	        		output = output + "<p>"+db.books[book].chapters[chapter].verses[(verse+i)].text+"</p>";
+	        		if(Math.random()>0.5) {
+
+	        			console.log('pass')
+
+	        		output = output + "<p>"+db.books[book].chapters[chapter].verses[(verse+(i+1))].text+"</p>";
+	        	} else {
+	        		console.log('break')
+	        		break;
+	        	}
+
 	        	}
 
 	        }
